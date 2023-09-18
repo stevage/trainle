@@ -1,0 +1,32 @@
+{
+  "name": "trainle",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vue-tsc && vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@turf/turf": "^6.5.0",
+    "graphology": "^0.25.4",
+    "graphology-shortest-path": "^2.0.2",
+    "graphology-traversal": "^0.3.1",
+    "tachyons": "^4.12.0",
+    "vue": "^3.3.4"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^4.2.3",
+    "@vue/eslint-config-prettier": "^8.0.0",
+    "eslint": "^8.49.0",
+    "eslint-plugin-vue": "^9.17.0",
+    "prettier": "^3.0.3",
+    "pug": "^3.0.2",
+    "typescript": "^5.0.2",
+    "vite": "^4.4.5",
+    "vite-plugin-pug": "^0.3.2",
+    "vue-pug-plugin": "^2.0.3",
+    "vue-tsc": "^1.8.5"
+  }
+}
