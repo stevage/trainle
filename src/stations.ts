@@ -59,7 +59,6 @@ function stationsForLine(line: string) {
   const lineStations = stations.filter(station => station.properties.lines.includes(line))
   let current = lineStations.find(station => station.properties.name === line)
   if (!current) {
-    console.log('No such station as ', line)
     return []
   }
   let remainingStations = lineStations.filter(station => station.properties.name !== line)
@@ -98,7 +97,6 @@ function initGraph() {
   cityLoop.forEach((station,i) => addEdge(station, cityLoop[(i+1) % (cityLoop.length)]))
 
   window.n = stations.map(station => station.properties.name)
-  console.log(lines)
   for (const line of lines) {
     const lineStations = stationsForLine(line)
 
@@ -118,7 +116,6 @@ function initGraph() {
 }
 
 export function getShortestPath(from: string, to: string) {
-  console.log('hi')
   if (!graph) {
     initGraph()
   }
