@@ -23,11 +23,9 @@ export default {
       style: "mapbox://styles/mapbox/light-v9",
     });
     U.init(map, mapboxgl);
-    console.log(stations, this.guesses);
     const geoGuesses = [...this.guesses, this.target].map((g) =>
       stations.find((s) => s.properties.name === g),
     );
-    console.log(geoGuesses);
     map.fitBounds(turf.bbox(turf.featureCollection(geoGuesses)), {
       padding: 40,
     });
@@ -35,7 +33,6 @@ export default {
     window.mapping = this;
 
     map.U.onLoad(() => {
-      console.log("oad");
       map.U.hide(/place-city/);
       map.U.addGeoJSON("trains", "trainline.geojson");
       map.U.addLine("trains-line", "trains", {

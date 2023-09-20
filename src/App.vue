@@ -10,16 +10,17 @@ import pseudoRandom from "pseudo-random";
   div(style="flex-grow:1")
     h1.tc 🚂 Trainle
       span(v-if="isUnlimited()") Unlimited
-      span(v-else) \#{{ gameNumber }} 🚂
-    p Guess the station on Melbourne's metro train network. After each guess you will be told the minimum number of stops to get to the target station, plus the straight line distance.
+      span(v-else)  \#{{ gameNumber }} 🚂
+    p Guess the station on Melbourne's metro train network.
+    p After each guess you will see how many stations away the target station is, and the straight-line distance.
 
     p(v-if="isUnlimited()") Refresh the page to get a new target station.
 
     div(v-if="!win && !fail")
       label.mt5
-        span.db.w4 Station name
-        input#guess-input(type="text" v-model="currentGuess" placeholder="Flinders Street" :disabled="win || fail")
-      button#guess(type="submit" @click="guess" :disabled="win || fail") Guess
+        span.db.w4.gray Station name
+        input#guess-input.h3(type="text" v-model="currentGuess" placeholder="Flinders Street" :disabled="win || fail")
+      button#guess.ml1.h3.pa2(type="submit" @click="guess" :disabled="win || fail") Guess
       div
         //- span.dib
         span.red(v-if="alert" ) {{ alert }}
@@ -137,6 +138,7 @@ export default {
         return;
       }
       this.currentGuess = "";
+      this.updateCookie();
     },
     getGameNumber() {
       if (window.location.search.match(/game=\d\d\d\d/)) {
@@ -162,10 +164,12 @@ export default {
       const prng = pseudoRandom(this.gameNumber * 47 + 9867);
       this.target =
         stationNames[Math.floor(prng.random() * stationNames.length)];
+      this.loadCookie();
     },
     giveup() {
       this.fail = true;
       this.actions.push("☠");
+      this.updateCookie();
     },
     hint() {
       const hintText = hintForStation(
@@ -176,11 +180,46 @@ export default {
       this.hintsLeft -= 1;
       this.hints.push(hintText);
       this.actions.push("🛟");
+      this.updateCookie();
     },
 
     copyWin() {
       // const url = `https://stevage.github.io/trainle/?game=${this.getGameNumber()}`;
       navigator.clipboard.writeText(this.shareText);
+    },
+    updateCookie() {
+      try {
+        localStorage.setItem(
+          this.gameNumber,
+          JSON.stringify({
+            guesses: this.guesses,
+            hints: this.hints,
+            actions: this.actions,
+            hintsLeft: this.hintsLeft,
+            win: this.win,
+            fail: this.fail,
+            gameNumber: this.gameNumber,
+          }),
+        );
+      } catch (e) {
+        console.log(e);
+      }
+    },
+    loadCookie() {
+      try {
+        const cookie = localStorage.getItem(this.gameNumber);
+        if (cookie) {
+          const data = JSON.parse(cookie);
+          this.guesses = data.guesses;
+          this.hints = data.hints;
+          this.actions = data.actions;
+          this.hintsLeft = data.hintsLeft;
+          this.win = data.win;
+          this.fail = data.fail;
+        }
+      } catch (e) {
+        console.log(e);
+      }
     },
   },
   computed: {
@@ -191,11 +230,10 @@ export default {
       midnightOfStart.setHours(0, 0, 0, 0);
 
       const diff = midnightOfToday.getTime() - midnightOfStart.getTime();
-      console.log(diff);
       return Math.floor(diff / (1000 * 60 * 60 * 24)) + 1;
     },
     shareText() {
-      return `I ${this.win ? "solved" : "couldn't solve"} Trainle #${
+      return `I ${this.win ? "solved" : "couldn't solve"} 🚂Trainle #${
         this.gameNumber
       } in ${this.guesses.length} guesses${
         this.hintsLeft < this.hintsAllowed
@@ -208,6 +246,7 @@ export default {
       }`;
     },
   },
+  watch: {},
 };
 </script>
 <style scoped></style>
