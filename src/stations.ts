@@ -101,6 +101,7 @@ function initGraph() {
     addEdge('flinders street', 'richmond')
     addEdge('flinders street', 'jolimont-mcg') 
     addEdge('southern cross', 'north melbourne') 
+    addEdge('laverton', 'newport')
   } catch(e){
   }
 
