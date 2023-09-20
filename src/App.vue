@@ -54,7 +54,6 @@ v-app
             v-btn(v-if="hintsLeft > 0 && guesses.length" variant="tonal" @click="hint") Hint ({{ hintsLeft }} left)
             v-btn.bg-blue-lighten-4(v-if="hintsLeft === 0" type="submit" @click="giveup") Give up
 
-      #game-over
       template(v-if="win || fail")
         v-card.elevation-8.my-2( style="border: 1px solid hsl(180,0%,70%)" :title="`${win ? 'Yes! ' : ''}The station is ${ titleCase(target)}.`" :class="{ 'bg-green-lighten-5': win, 'bg-red-lighten-5': fail }")
           v-card-text
@@ -64,6 +63,7 @@ v-app
       .map-container(v-if="fail || win" style="width:100%; height:calc(max(50vh, 200px)); position:relative")
         Map( :guesses="guesses.map(g=>g.station)" :target="target")
 
+      #game-over
       button#restart(v-if="isUnlimited() && (fail || win)" type="submit" @click="restart") Play again
     v-bottom-navigation
       v-footer Made by&nbsp;
@@ -186,6 +186,9 @@ export default {
       this.fail = true;
       this.actions.push("☠");
       this.updateCookie();
+      document
+        .querySelector("#game-over")
+        .scrollIntoView({ behaviour: "smooth" });
     },
     hint() {
       const hintText = hintForStation(
@@ -257,7 +260,7 @@ export default {
     shareText() {
       return `I ${this.win ? "solved" : "gave up on"} 🚂Trainle #${
         this.gameNumber
-      } in ${this.guesses.length} guesses${
+      } ${this.win ? "in" : "after"} ${this.guesses.length} guesses${
         this.hintsLeft < this.hintsAllowed
           ? " with " + (this.hintsAllowed - this.hintsLeft) + " hints"
           : ""
