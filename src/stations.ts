@@ -1,13 +1,25 @@
+// @ts-nocheck
 import graphology from 'graphology'
 import { bidirectional } from 'graphology-shortest-path'
 import stationsFC from './assets/stations.json'
 import { distance } from '@turf/turf'
-const stations = stationsFC.features
+
+export let stations = stationsFC.features
 for (const station of stations) {
-  station.properties.name = station.properties.STOP_NAME.replace(/ Railway Station.*$/, '').toLowerCase()
+  station.properties.nameUp = station.properties.STOP_NAME.replace(/ Railway Station.*$/, '')
+  if (station.properties.nameUp === 'Surrey Hills') {
+    station.properties.nameUp = 'Union';
+  } else if (station.properties.nameUp==='Glenhuntly') {
+    station.properties.nameUp = 'Glen Huntly'
+  }
+
   station.properties.lines = station.properties.ROUTEUSSP.toLowerCase().split(',')
+  station.properties.name = station.properties.nameUp.toLowerCase()
+
 }
+stations = stations.filter(s => s.properties.name !== 'mont albert');
 export const stationNames = stations.map(station => station.properties.name)
+
 window.s = stations
 function getLines() {
   const lines = new Set<string>()
@@ -19,19 +31,13 @@ function getLines() {
   return [...lines]
 }
 
-// function distance(a, b) {
-//   // console.log(a?.properties.name, b?.properties?.name)
-//   if (!b) { console.log(
-//     '**',a)
-//     return 1
-//   }
-//   return Math.sqrt(Math.pow(a.geometry.coordinates[0] - b.geometry.coordinates[0], 2) + Math.pow(a.geometry.coordinates[1] - b.geometry.coordinates[1], 2))
-// }
-
 export function stationDistance(a,b) {
   return distance(stations.find(station => station.properties.name === a), stations.find(station => station.properties.name === b))
 }
 window.sd = stationDistance
+
+
+
 
 // find the station whose name begins with the line, then return the rest of the stations in order
 // of distance from the one before
@@ -119,4 +125,38 @@ export function getShortestPath(from: string, to: string) {
 
   const path  = bidirectional(graph, from, to)
   return path
+}
+
+function stationByName(stationName) {
+  return stations.find(station => station.properties.name === stationName)
+}
+
+export function hintForStation(station, target, hintsLeft) {
+  const lines = stationByName(station).properties.lines;
+  let targetLine =lines.find(line => stationByName(target).properties.lines.includes(line))
+  if (!targetLine) {
+    targetLine = lines[0]
+    // return "You're on the wrong line."
+  }
+  const targetLineStations = stationsForLine(targetLine)
+  const stationIndex = targetLineStations.indexOf(station)
+  // 2 stations before, then station, then 2 stations after
+  const neighbours = targetLineStations.slice(Math.max(stationIndex - 2,0), stationIndex + 3)
+  const neighbourStations = neighbours.map(
+    neighbourName => {
+    const neighbour = stationByName(neighbourName)
+
+    if (station === neighbour.properties.name) {
+      return neighbour.properties.nameUp
+    }
+    if (hintsLeft == 3) {
+      return neighbour.properties.nameUp.replace(/\b(\w)\w+/g, '$1').replace(/ /g, '')
+    } else if (hintsLeft === 2) {
+      return neighbour.properties.nameUp.split(' ').map(part => part.replace(/\b(\w\w)(\w*)/g, (match, p1, p2) => p1 + '_'.repeat(p2.length))).join(' ')
+    } else if (hintsLeft === 1) {
+        return neighbour.properties.nameUp.split(' ').map(part => part.replace(/\b(\w\w)(\w*)(\w)\b/g, (match, p1, p2,p3) => p1 + '_'.repeat(p2.length) + p3)).join(' ')
+      }
+
+  })
+  return neighbourStations.join(', ')
 }

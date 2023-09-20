@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc && vite build",
+    "deploy": "rm -rf docs; vite build && mv dist docs; git add docs; git commit -m 'update'; git push",
     "preview": "vite preview"
   },
   "dependencies": {
@@ -13,6 +14,9 @@
     "graphology": "^0.25.4",
     "graphology-shortest-path": "^2.0.2",
     "graphology-traversal": "^0.3.1",
+    "map-gl-utils": "^0.44.3",
+    "mapbox-gl": "^2.15.0",
+    "pseudo-random": "^0.6.0",
     "tachyons": "^4.12.0",
     "vue": "^3.3.4"
   },
