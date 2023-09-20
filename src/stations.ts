@@ -96,6 +96,14 @@ function initGraph() {
   const cityLoop = ['Flinders Street', 'Southern Cross', 'Flagstaff','Melbourne Central','Parliament'].map(s=>s.toLowerCase())
   cityLoop.forEach((station,i) => addEdge(station, cityLoop[(i+1) % (cityLoop.length)]))
 
+  //Add hacks for missing links where there are alternate routes not included in the main algorithm.
+  try {
+    addEdge('flinders street', 'richmond')
+    addEdge('flinders street', 'jolimont-mcg') 
+    addEdge('southern cross', 'north melbourne') 
+  } catch(e){
+  }
+
   window.n = stations.map(station => station.properties.name)
   for (const line of lines) {
     const lineStations = stationsForLine(line)
