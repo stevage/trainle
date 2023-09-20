@@ -50,9 +50,9 @@ v-app
                     span(style="font-family:Lucida Console,courier new,monospace") {{ hint }}
                     //- span(style="font-family:Lucida Console,courier new,monospace" v-html="hint.replace(/, */g,'<br>')")
             p(v-else) Each hint gives you clues about the names of stations near your last guess.
-          v-card-actions
+          v-card-actions(v-if="playing")
             v-btn(v-if="hintsLeft > 0 && guesses.length" variant="tonal" @click="hint") Hint ({{ hintsLeft }} left)
-            v-btn.bg-blue-lighten-4(v-if="hintsLeft === 0" type="submit" @click="giveup") Give up
+            v-btn.bg-blue-lighten-4(v-if="hintsLeft === 0 && playing" type="submit" @click="giveup") Give up
 
       template(v-if="win || fail")
         v-card.elevation-8.my-2( style="border: 1px solid hsl(180,0%,70%)" :title="`${win ? 'Yes! ' : ''}The station is ${ titleCase(target)}.`" :class="{ 'bg-green-lighten-5': win, 'bg-red-lighten-5': fail }")
@@ -151,7 +151,6 @@ export default {
         document
           .querySelector("#game-over")
           .scrollIntoView({ behaviour: "smooth" });
-        return;
       }
       this.currentGuess = "";
       this.updateCookie();
@@ -180,7 +179,7 @@ export default {
       const prng = pseudoRandom(this.gameNumber * 47 + 9867);
       this.target =
         stationNames[Math.floor(prng.random() * stationNames.length)];
-      if (window.location.hostname !== "localhost") this.loadCookie();
+      if (window.location.hostname !== "localhosta") this.loadCookie();
     },
     giveup() {
       this.fail = true;
@@ -227,6 +226,7 @@ export default {
     loadCookie() {
       try {
         const cookie = localStorage.getItem(this.gameNumber);
+        console.log(cookie);
         if (cookie) {
           const data = JSON.parse(cookie);
           this.guesses = data.guesses;
