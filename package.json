@@ -18,7 +18,8 @@
     "mapbox-gl": "^2.15.0",
     "pseudo-random": "^0.6.0",
     "tachyons": "^4.12.0",
-    "vue": "^3.3.4"
+    "vue": "^3.3.4",
+    "vuetify": "^3.3.17"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^4.2.3",

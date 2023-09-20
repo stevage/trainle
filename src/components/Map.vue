@@ -27,7 +27,7 @@ export default {
       stations.find((s) => s.properties.name === g),
     );
     map.fitBounds(turf.bbox(turf.featureCollection(geoGuesses)), {
-      padding: 40,
+      padding: 80,
     });
     window.map = map;
     window.mapping = this;
@@ -90,6 +90,7 @@ export default {
         textHaloColor: "hsla(0,0%,100%,0.5)",
         textHaloWidth: 1,
         textAnchor: "left",
+        textAllowOverlap: true,
         filter: [
           "in",
           ["get", "name"],
