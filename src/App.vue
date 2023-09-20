@@ -12,7 +12,7 @@ window.g = getShortestPath;
 
   label.mt5
     span.dib.w4 Station name
-    input#guess-input(type="text" v-model="currentGuess" placeholder="Flinders Street" :disabled="win || fail")
+    input#guess-input(type="text" v-model="currentGuess" placeholder="Flinders Street" :disabled="win || fail" list="stations")
   button#guess(type="submit" @click="guess" :disabled="win || fail") Guess
   div
     span.dib.w4
@@ -34,6 +34,8 @@ window.g = getShortestPath;
     button#restart(type="submit" @click="restart") Play again
   div(v-else)
     button#restart(type="submit" @click="giveup") Give up
+  datalist#stations
+    option(v-for="stationName in stationNames" :value="stationName")
 
 </template>
 
