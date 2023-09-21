@@ -99,16 +99,7 @@ export default {
     window.app = this;
     this.restart();
   },
-  mounted() {
-    // document
-    //   .querySelector("#guess-input")
-    //   .addEventListener("keyup", (event) => {
-    //     if (event.key !== "Enter") return; // Use `.key` instead.
-    //     this.guess();
-    //     event.preventDefault(); // No need to `return false;`.
-    // });
-    // document.querySelector("#guess-input").focus();
-  },
+
   methods: {
     titleCase(s) {
       return s
