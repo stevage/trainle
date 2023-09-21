@@ -11,7 +11,7 @@ v-app
     //- .pa3.flex.flex-column(style="font-family:sans-serif; height:100vh; ")
     div(style="flex-grow:1")
       h1.text-h4.text-lg-h2.text-center 🚂 Trainle
-        span(v-if="isUnlimited()") Unlimited
+        span(v-if="isUnlimited()")  unlimited
         span(v-else)  \#{{ gameNumber }}
         span 🚂
       v-sheet.my-5
