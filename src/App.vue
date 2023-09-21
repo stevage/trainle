@@ -21,9 +21,9 @@ v-app
         .text-body-1.mt-4(v-if="isUnlimited()") Refresh the page to get a new target station.
 
 
-      v-text-field(label="Guess a station" placeholder="Flinders Street" v-model="currentGuess" :disabled="win || fail" @keyup="alert=''" @keyup.enter="guess"  :error-messages="alert" autofocus )
+      v-text-field(label="Guess a station" placeholder="Flinders Street" v-model="currentGuess" :disabled="win || fail" @keyup="alert=''" @keyup.enter="makeGuess"  :error-messages="alert" autofocus )
         template(v-slot:append)
-          v-btn(@click="guess" :disabled="!currentGuess || win || fail") Guess
+          v-btn(@click="makeGuess" :disabled="!currentGuess || win || fail") Guess
 
       v-expand-transition
         v-table(v-if="guesses.length")
@@ -36,7 +36,7 @@ v-app
 
           tbody
             tr(v-for="(guess,i) in guesses")
-              th {{ titleCase(guess.station) }}
+              th {{ guess.stationUp }}
               td {{ actionSymbol(guess.result) }}&nbsp;{{ guess.result }} {{ guess.result === 1 ? 'stop' : 'stops' }}
               td {{ guess.distance }} km
       v-expand-transition
@@ -73,13 +73,13 @@ v-app
 </template>
 
 <script>
-// @ts-nocheck
 import shuffle from "fisher-yates";
 import {
   getShortestPath,
   stationNames,
   stationDistance,
   hintForStation,
+  stationByName,
 } from "./stations";
 export default {
   data: () => ({
@@ -118,8 +118,13 @@ export default {
         return "🟩";
       }
     },
-    guess() {
-      const guess = this.currentGuess.toLowerCase().trim();
+    normalizeRawGuess(guess) {
+      let s = this.currentGuess.toLowerCase().trim();
+      s = { jolimont: "jolimont-mcg" }[s] || s;
+      return s;
+    },
+    makeGuess() {
+      const guess = this.normalizeRawGuess(this.currentGuess);
       if (this.guesses.map((g) => g.station).includes(guess)) {
         this.alert = "You already guessed that station";
         return;
@@ -133,6 +138,7 @@ export default {
       const distance = Math.round(stationDistance(this.target, guess));
       this.guesses.push({
         station: guess,
+        stationUp: stationByName(guess).properties.nameUp,
         result: result.length - 1,
         distance,
       });
