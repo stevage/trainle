@@ -21,6 +21,7 @@ stations = stations.filter(s => s.properties.name !== 'mont albert');
 export const stationNames = stations.map(station => station.properties.name)
 
 window.s = stations
+window.sn = stationNames
 function getLines() {
   const lines = new Set<string>()
   for (const station of stations) {
@@ -124,7 +125,7 @@ export function getShortestPath(from: string, to: string) {
   return path
 }
 
-function stationByName(stationName) {
+export function stationByName(stationName) {
   return stations.find(station => station.properties.name === stationName)
 }
 
