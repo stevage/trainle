@@ -24,7 +24,7 @@ v-app
       v-text-field(label="Guess a station" placeholder="Flinders Street" v-model="currentGuess" :disabled="win || fail" @keyup="alert=''" @keyup.enter="makeGuess"  :error-messages="alert" autofocus )
         template(v-slot:append)
           v-btn(@click="makeGuess" :disabled="!currentGuess || win || fail") Guess
-
+      a.text-body-2.ml-4.mb-4(v-if="guesses.length" href="#" style="display:block;margin-top:-8px" @click.prevent="needHint" ) Need a hint?
       v-expand-transition
         v-table(v-if="guesses.length")
           thead
@@ -35,12 +35,13 @@ v-app
               th Crow flies
 
           tbody
-            tr(v-for="(guess,i) in guesses")
+            tr(v-for="(guess,i) in [...guesses].reverse()")
               th {{ guess.stationUp }}
               td {{ actionSymbol(guess.result) }}&nbsp;{{ guess.result }} {{ guess.result === 1 ? 'stop' : 'stops' }}
               td {{ guess.distance }} km
+      #hint-box
       v-expand-transition
-        v-card.mt-12.mb-12.bg-blue-lighten-6(v-show="guesses.length && (hints.length || playing)" title="Need a hint?")
+        v-card.mt-12.mb-12.bg-blue-lighten-6(v-show="guesses.length && hintBoxShowing && (hints.length || playing)")
           v-card-text
             v-table.bg-blue-lighten-5(v-if="hints.length" density="compact")
               tbody
@@ -94,6 +95,7 @@ export default {
     hintsLeft: undefined,
     actions: [],
     hintsAllowed: 3,
+    hintBoxShowing: false,
   }),
   created() {
     window.app = this;
@@ -254,6 +256,12 @@ export default {
     },
     validateStation(v) {
       return !v || stationNames.includes(v.toLowerCase().trim());
+    },
+    needHint() {
+      this.hintBoxShowing = true;
+      document
+        .querySelector("#hint-box")
+        .scrollIntoView({ behaviour: "smooth" });
     },
   },
   computed: {
