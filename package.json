@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@turf/turf": "^6.5.0",
+    "fisher-yates": "^1.0.4",
     "graphology": "^0.25.4",
     "graphology-shortest-path": "^2.0.2",
     "graphology-traversal": "^0.3.1",

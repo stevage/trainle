@@ -2127,6 +2127,11 @@ find-up@^5.0.0:
     locate-path "^6.0.0"
     path-exists "^4.0.0"
 
+fisher-yates@^1.0.4:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/fisher-yates/-/fisher-yates-1.0.4.tgz#ac9a1c3f967b0d2d13abd2293c627e333af2b097"
+  integrity sha512-+wpHO263XgTCxsoX77YPQ+cWVYORw25vv+Y5JXbi7ZBxWGDUMoZBTr21ktjmU3SOHY5/oKO3ODYBZUSxI1Cqrg==
+
 flat-cache@^3.0.4:
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/flat-cache/-/flat-cache-3.1.0.tgz#0e54ab4a1a60fe87e2946b6b00657f1c99e1af3f"

@@ -74,6 +74,7 @@ v-app
 
 <script>
 // @ts-nocheck
+import shuffle from "fisher-yates";
 import {
   getShortestPath,
   stationNames,
@@ -155,6 +156,14 @@ export default {
       this.currentGuess = "";
       this.updateCookie();
     },
+    targetForGameNumber(gameNumber) {
+      const prng = pseudoRandom(3411098);
+      const stations = shuffle(stationNames, prng.random);
+
+      const first = stations.slice(0, 20);
+      return stations[gameNumber % stations.length];
+    },
+
     getGameNumber() {
       if (window.location.search.match(/game=\d\d\d\d/)) {
         return window.location.search.match(/game=(\d+)/)[1];
@@ -162,11 +171,20 @@ export default {
         return Math.floor(Math.random() * 100000 + 1000);
       }
       return this.daysSinceStart;
-      // const d = new Date();
-      // return `${d.getYear()}0${d.getMonth()}0${d.getDate()}`;
     },
     isUnlimited() {
       return window.location.search.match(/unlimited/);
+    },
+    testRandom() {
+      const stations = {};
+      const runs = 10000;
+      for (let i = 1; i < runs; i++)
+        stations[app.targetForGameNumber(i)] =
+          (stations[app.targetForGameNumber(i)] || 0) + 1;
+      const counts = Object.values(stations).sort();
+      console.log(...counts.slice(0, 10), "...", ...counts.slice(-10));
+      console.log("expected", runs / stationNames.length);
+      console.log(`${stationNames.length - counts.length} missing`);
     },
     restart() {
       this.win = false;
@@ -176,9 +194,7 @@ export default {
       this.hints = [];
       this.actions = [];
       this.gameNumber = this.getGameNumber();
-      const prng = pseudoRandom(this.gameNumber * 47 + 9867);
-      this.target =
-        stationNames[Math.floor(prng.random() * stationNames.length)];
+      this.target = this.targetForGameNumber(this.gameNumber);
       if (window.location.hostname !== "localhosta") this.loadCookie();
     },
     giveup() {
@@ -226,7 +242,6 @@ export default {
     loadCookie() {
       try {
         const cookie = localStorage.getItem(this.gameNumber);
-        console.log(cookie);
         if (cookie) {
           const data = JSON.parse(cookie);
           this.guesses = data.guesses;
