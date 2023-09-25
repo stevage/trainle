@@ -37,7 +37,7 @@ v-app
           tbody
             tr(v-for="(guess,i) in [...guesses].reverse()")
               th {{ guess.stationUp }}
-              td {{ actionSymbol(guess.result) }}&nbsp;{{ guess.result }} {{ guess.result === 1 ? 'stop' : 'stops' }}
+              td {{ actionSymbol(guess.stopDistance) }}&nbsp;{{ guess.stopDistance }} {{ guess.stopDistance === 1 ? 'stop' : 'stops' }}
               td {{ guess.distance }} km
       #hint-box
       v-expand-transition
@@ -49,8 +49,8 @@ v-app
                   td Hint&nbsp;{{ i+1 }}
                   td
                     span(style="font-family:Lucida Console,courier new,monospace") {{ hint }}
-                    //- span(style="font-family:Lucida Console,courier new,monospace" v-html="hint.replace(/, */g,'<br>')")
-            p(v-else) Each hint gives you clues about the names of stations near your last guess.
+
+            p(v-else) Each hint gives you clues about the names of stations near your closest guess.
           v-card-actions(v-if="playing")
             v-btn(v-if="hintsLeft > 0 && guesses.length" variant="tonal" @click="hint") Hint ({{ hintsLeft }} left)
             v-btn.bg-blue-lighten-4(v-if="hintsLeft === 0 && playing" type="submit" @click="giveup") Give up
@@ -110,12 +110,12 @@ export default {
         .map((w) => w[0].toUpperCase() + w.slice(1))
         .join(" ");
     },
-    actionSymbol(result) {
-      if (result > 20) {
+    actionSymbol(stopDistance) {
+      if (stopDistance > 20) {
         return "🟥";
-      } else if (result > 5) {
+      } else if (stopDistance > 5) {
         return "🟧";
-        // } else if (result === 0) {
+        // } else if (stopDistance === 0) {
         //   return "🎉";
       } else {
         return "🟩";
@@ -137,15 +137,16 @@ export default {
         return;
       }
       this.alert = "";
-      const result = getShortestPath(this.target, guess);
+      const stopDistance = getShortestPath(this.target, guess).length - 1;
       const distance = Math.round(stationDistance(this.target, guess));
       this.guesses.push({
         station: guess,
         stationUp: stationByName(guess).properties.nameUp,
-        result: result.length - 1,
+        stopDistance,
         distance,
+        number: this.guesses.length + 1,
       });
-      this.actions.push(this.actionSymbol(result.length - 1));
+      this.actions.push(this.actionSymbol(stopDistance));
       if (guess === this.target) {
         this.win = true;
         this.actions.push("🎉");
@@ -206,11 +207,15 @@ export default {
         .scrollIntoView({ behaviour: "smooth" });
     },
     hint() {
-      const hintText = hintForStation(
-        this.guesses.slice(-1)[0].station,
-        this.target,
-        this.hintsLeft,
-      );
+      const guessVal = (guess) =>
+        guess.stopDistance * 1000 +
+        Math.floor(guess.distance) -
+        guess.number / 1000;
+      const compareGuesses = (a, b) => guessVal(a) - guessVal(b);
+
+      const bestStation = [...this.guesses].sort(compareGuesses)[0].station;
+
+      const hintText = hintForStation(bestStation, this.target, this.hintsLeft);
       this.hintsLeft -= 1;
       this.hints.push(hintText);
       this.actions.push("🛟");

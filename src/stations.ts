@@ -63,16 +63,16 @@ function stationsForLine(line: string) {
     return []
   }
   let remainingStations = lineStations.filter(station => station.properties.name !== line)
-  const result = [current]
+  const ret = [current]
   // console.log(current.properties.name)
   while (remainingStations.length) {
     remainingStations.sort((a, b) => distance(a, current) - distance(b, current))
     current = remainingStations[0];
-    result.push(current)
+    ret.push(current)
     // console.log(current.properties.name)
     remainingStations = remainingStations.filter(station => station !== current)
   }
-  return result.map(station => station.properties.name)
+  return ret.map(station => station.properties.name)
 
 }
 
@@ -100,8 +100,8 @@ function initGraph() {
   //Add hacks for missing links where there are alternate routes not included in the main algorithm.
   try {
     addEdge('flinders street', 'richmond')
-    addEdge('flinders street', 'jolimont-mcg') 
-    addEdge('southern cross', 'north melbourne') 
+    addEdge('flinders street', 'jolimont-mcg')
+    addEdge('southern cross', 'north melbourne')
     addEdge('laverton', 'newport')
   } catch(e){
   }
