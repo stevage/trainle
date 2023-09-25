@@ -66,6 +66,7 @@ v-app
 
       #game-over
       button#restart(v-if="isUnlimited() && (fail || win)" type="submit" @click="restart") Play again
+    div(style="height:40px")
     v-bottom-navigation
       v-footer Made by&nbsp;
         a(href="https://hire.stevebennett.me") Steve Bennett
@@ -194,7 +195,7 @@ export default {
       this.actions = [];
       this.gameNumber = this.getGameNumber();
       this.target = this.targetForGameNumber(this.gameNumber);
-      if (window.location.hostname !== "localhosta") this.loadCookie();
+      if (window.location.hostname !== "localhost") this.loadCookie();
     },
     giveup() {
       this.fail = true;
@@ -243,6 +244,13 @@ export default {
         const cookie = localStorage.getItem(this.gameNumber);
         if (cookie) {
           const data = JSON.parse(cookie);
+          if (
+            this.gameNumber == 3 &&
+            (data.win || data.fail) &&
+            data.guesses.slice(-1)[0].station === "hurstbridge"
+          ) {
+            return;
+          }
           this.guesses = data.guesses;
           this.hints = data.hints;
           this.actions = data.actions;
