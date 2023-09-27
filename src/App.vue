@@ -134,13 +134,27 @@ export default {
       const guess = this.normalizeRawGuess(this.currentGuess);
       window.insights?.track({
         id: "guess",
-        parameters: { guess, actions: this.actions },
+        parameters: {
+          guess,
+          guessCount: this.guesses.length,
+          actions: this.actions,
+        },
       });
+      if (this.guesses.length === 0) {
+        window.insights?.track({
+          id: "first-guess",
+          parameters: { guess },
+        });
+      }
       if (this.guesses.map((g) => g.station).includes(guess)) {
         this.alert = "You already guessed that station";
         return;
       }
       if (!stationNames.includes(guess)) {
+        window.insights?.track({
+          id: "invalid-guess",
+          parameters: { guess },
+        });
         this.alert = "Invalid station name";
         return;
       }
@@ -166,9 +180,9 @@ export default {
           parameters: {
             guessCount: this.guesses.length,
             hintCount: this.hints.length,
-            guesses: this.guesses,
             target: this.target,
             actions: this.actions,
+            guesses: this.guesses.map((g) => g.station),
           },
         });
       }
@@ -229,18 +243,25 @@ export default {
         .scrollIntoView({ behaviour: "smooth" });
       window.insights?.track({
         id: "giveup",
-        parameters: { guesses: this.guesses, target: this.target },
+        parameters: {
+          guessCount: this.guesses.length,
+          bestDistance: this.bestGuess()?.stopDistance,
+          actions: this.actions,
+          target: this.target,
+        },
       });
     },
-    hint() {
+    bestGuess() {
       const guessVal = (guess) =>
         guess.stopDistance * 1000 +
         Math.floor(guess.distance) -
         guess.number / 1000;
       const compareGuesses = (a, b) => guessVal(a) - guessVal(b);
-
-      const bestStation = [...this.guesses].sort(compareGuesses)[0].station;
-
+      return [...this.guesses].sort(compareGuesses)[0];
+    },
+    hint() {
+      const bestStation = this.bestGuess()?.station;
+      const bestDistance = this.bestGuess()?.stopDistance;
       const hintText = hintForStation(bestStation, this.target, this.hintsLeft);
       this.hintsLeft -= 1;
       this.hints.push(hintText);
@@ -249,10 +270,11 @@ export default {
       window.insights?.track({
         id: "hint",
         parameters: {
+          bestDistance,
           bestStation,
           hintText,
-          guesses: this.guesses,
-          hints: this.hints,
+          hintCount: this.hints.length,
+          guessCount: this.guesses.length,
           target: this.target,
           actions: this.actions,
         },
