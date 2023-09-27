@@ -1,5 +1,4 @@
 <script setup>
-// import "tachyons";
 window.g = getShortestPath;
 import Map from "./components/Map.vue";
 import pseudoRandom from "pseudo-random";
@@ -128,6 +127,10 @@ export default {
     },
     makeGuess() {
       const guess = this.normalizeRawGuess(this.currentGuess);
+      window.insights?.track({
+        id: "guess",
+        parameters: { guess, actions: this.actions },
+      });
       if (this.guesses.map((g) => g.station).includes(guess)) {
         this.alert = "You already guessed that station";
         return;
@@ -153,6 +156,16 @@ export default {
         document
           .querySelector("#game-over")
           .scrollIntoView({ behaviour: "smooth" });
+        window.insights?.track({
+          id: "win",
+          parameters: {
+            guessCount: this.guesses.length,
+            hintCount: this.hints.length,
+            guesses: this.guesses,
+            target: this.target,
+            actions: this.actions,
+          },
+        });
       }
       this.currentGuess = "";
       this.updateCookie();
@@ -166,8 +179,12 @@ export default {
     },
 
     getGameNumber() {
-      if (window.location.search.match(/game=\d\d\d\d/)) {
-        return window.location.search.match(/game=(\d+)/)[1];
+      if (window.location.search.match(/game=\d+/)) {
+        const gameNumber = +window.location.search.match(/game=(\d+)/)[1];
+        console.log(gameNumber);
+        if (gameNumber <= this.daysSinceStart) {
+          return gameNumber;
+        }
       } else if (this.isUnlimited()) {
         return Math.floor(Math.random() * 100000 + 1000);
       }
@@ -205,6 +222,10 @@ export default {
       document
         .querySelector("#game-over")
         .scrollIntoView({ behaviour: "smooth" });
+      window.insights?.track({
+        id: "giveup",
+        parameters: { guesses: this.guesses, target: this.target },
+      });
     },
     hint() {
       const guessVal = (guess) =>
@@ -220,10 +241,20 @@ export default {
       this.hints.push(hintText);
       this.actions.push("🛟");
       this.updateCookie();
+      window.insights?.track({
+        id: "hint",
+        parameters: {
+          bestStation,
+          hintText,
+          guesses: this.guesses,
+          hints: this.hints,
+          target: this.target,
+          actions: this.actions,
+        },
+      });
     },
 
     copyWin() {
-      // const url = `https://stevage.github.io/trainle/?game=${this.getGameNumber()}`;
       navigator.clipboard.writeText(this.shareText);
     },
     updateCookie() {
