@@ -67,9 +67,14 @@ v-app
       button#restart(v-if="isUnlimited() && (fail || win)" type="submit" @click="restart") Play again
     div(style="height:40px")
     v-bottom-navigation
-      v-footer Made by&nbsp;
-        a(href="https://hire.stevebennett.me") Steve Bennett
-        | .
+      v-footer
+        div(style="display:flex; ")
+          div
+            | Made by&nbsp;
+            a(href="https://hire.stevebennett.me") Steve Bennett
+            | .
+          div
+            p No personal information collected. Usage stats collected with <a href="https://getinsights.io/what-data-we-collect">Insights</a>.
 
 </template>
 
