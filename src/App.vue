@@ -37,18 +37,21 @@ v-app
               th By train
               th Crow flies
 
-          tbody
-            tr(v-for="(guess,i) in [...guesses].reverse()")
-              th {{ guess.stationUp }}
-              td {{ actionSymbol(guess.stopDistance) }}&nbsp;{{ guess.stopDistance }} {{ guess.stopDistance === 1 ? 'stop' : 'stops' }}
-              td {{ guess.distance }} km
+          tbody.guesses
+            tr(v-for="(guess,i) in [...guesses].reverse()" :key="guess.station")
+              th
+                .guess-station {{ guess.stationUp }}
+              td
+                .guess {{ actionSymbol(guess.stopDistance) }}&nbsp;{{ guess.stopDistance }} {{ guess.stopDistance === 1 ? 'stop' : 'stops' }}
+              td
+                .guess {{ guess.distance }} km
       #hint-box
       v-expand-transition
         v-card.mt-12.mb-12.bg-blue-lighten-6(v-show="guesses.length && hintBoxShowing && (hints.length || playing)")
           v-card-text
             v-table.bg-blue-lighten-5(v-if="hints.length" density="compact")
               tbody
-                tr(v-for="(hint,i) in hints")
+                tr(v-for="(hint,i) in hints" :key="hint")
                   td Hint&nbsp;{{ i+1 }}
                   td
                     span(style="font-family:Lucida Console,courier new,monospace") {{ hint }}
@@ -377,4 +380,55 @@ export default {
 #hintmap .mapboxgl-control-container {
   display: none;
 }
+
+.guess {
+  animation: fadeIn 0.3s;
+  transform-origin: center;
+  transition-timing-function: cubic-bezier(0.25, 0.1, 0.25, 1);
+  /* border: 1px solid grey; */
+  display: inline-block;
+  color: #444;
+}
+/*
+.guess,
+.guess-station {
+  animation: expandIn 3s;
+  max-height: 1px !important;
+  height: 1px !important;
+} */
+
+.guesses tr:first-child {
+  background: hsl(60, 70%, 90%);
+}
+
+.guesses tr:first-child .guess {
+  color: black !important;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0.3;
+    transform: scale(0.5);
+  }
+  70% {
+    transform: scale(1.25);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+/*
+@keyframes expandIn {
+  0% {
+    max-height: 0 !important;
+    height: 0 !important;
+    opacity: 0.2;
+  }
+  100% {
+    max-height: 55px !important;
+    height: 55px !important;
+    opacity: 1;
+  }
+} */
 </style>
