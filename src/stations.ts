@@ -3,7 +3,6 @@ import graphology from 'graphology'
 import { bidirectional } from 'graphology-shortest-path'
 import stationsFC from './assets/stations.json'
 import { distance } from '@turf/turf'
-
 export let stations = stationsFC.features
 for (const station of stations) {
   station.properties.nameUp = station.properties.STOP_NAME.replace(/ Railway Station.*$/, '')
@@ -84,7 +83,7 @@ function initGraph() {
 
   function addEdge(a,b) {
     const combined = [a,b].sort().join('-')
-    if (combined === 'caulfield-south yarra') {
+    if (combined.match(/^(caulfield-south yarra|footscray-north melbourne|laverton-newport|newmarket-north melbourne)$/)){
       return
     }
     // console.log(a,b)
@@ -137,6 +136,11 @@ export function getShortestPath(from: string, to: string) {
   const path  = bidirectional(graph, from, to)
   return path
 }
+export function stopDistance(from:string, to:string) {
+  return getShortestPath(from, to).length -1;
+}
+
+window.gsp = getShortestPath
 
 export function stationByName(stationName) {
   return stations.find(station => station.properties.name === stationName)

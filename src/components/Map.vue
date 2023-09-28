@@ -7,7 +7,7 @@ import mapboxgl from "mapbox-gl/dist/mapbox-gl-dev.js";
 import "mapbox-gl/dist/mapbox-gl.css";
 import U from "map-gl-utils/noflow/index";
 import * as turf from "@turf/turf";
-import { stations } from "../stations";
+import { stations, stationDistance, stopDistance } from "../stations";
 window.turf = turf;
 window.uuu = U;
 // import { EventBus } from "../EventBus";
@@ -74,7 +74,10 @@ export default {
         textOffset: [0, 1],
         visibility: "none",
       });
-      map.U.addGeoJSON("stations", turf.featureCollection(stations));
+      map.U.addGeoJSON(
+        "stations",
+        turf.featureCollection(stationsWithDistances(this.target)),
+      );
       map.U.addCircle("stations-circle", "stations", {
         circleColor: [
           "case",
@@ -123,7 +126,7 @@ export default {
       map.U.addSymbol("stations-label-small", "stations", {
         textSize: U.interpolateZoom({ 12: 12, 16: 20 }),
         textField: ["get", "nameUp"],
-        textColor: "hsl(180,40%,50%)",
+        textColor: "hsl(180,40%,30%)",
         textHaloColor: "hsla(0,0%,100%,0.5)",
         textHaloWidth: 1,
         textAnchor: "left",
@@ -134,6 +137,17 @@ export default {
           ["in", ["get", "name"], ["literal", [...this.guesses, this.target]]],
         ],
         minzoom: 11,
+      });
+      map.U.addSymbol("stations-distance", "stations", {
+        textSize: 12,
+        textOffset: [-0.75, 0],
+        textField: ["get", "stopsToTarget"],
+        textColor: "hsl(180,40%,50%)",
+        textHaloColor: "hsla(0,0%,100%,0.5)",
+        textHaloWidth: 1,
+        textAnchor: "right",
+        textAllowOverlap: true,
+        minzoom: 12.5,
       });
     });
   },
@@ -174,6 +188,14 @@ async function loadTrainLines() {
   // 1;
 
   return lineData;
+}
+
+function stationsWithDistances(target) {
+  for (const s of stations) {
+    s.properties.distanceToTarget = stationDistance(s.properties.name, target);
+    s.properties.stopsToTarget = stopDistance(s.properties.name, target);
+  }
+  return stations;
 }
 </script>
 
