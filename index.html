@@ -7,9 +7,9 @@
 
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <script src="https://getinsights.io/js/insights.js"></script>
+    <script src="insights.js"></script>
     <script>
-      if (window.insights) {
+      if (window.insights && window.location.hostname !== 'localhost') {
         insights.init('BA5h_FYM2o0tzO0l');
         insights.trackPages();
       }
