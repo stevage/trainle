@@ -2,6 +2,8 @@
 window.g = getShortestPath;
 import Map from "./components/Map.vue";
 import pseudoRandom from "pseudo-random";
+import HintMap from "./components/HintMap.vue";
+import { stationByName } from "./stations";
 </script>
 
 <template lang="pug">
@@ -19,7 +21,9 @@ v-app
 
         .text-body-1.mt-4(v-if="isUnlimited()") Refresh the page to get a new target station.
 
-
+      //- div.py-3(:style="{display:'flex',justifyContent:'center'}")
+      //-   div(v-if=" target" :style="{position:'relative', height:'200px', width: playing ? '200px' : '100%'}")
+      //-     HintMap(:center="stationByName(target).geometry.coordinates" :reveal="win || fail" :target="target")
       v-text-field(label="Guess a station" placeholder="Flinders Street" v-model="currentGuess" :disabled="win || fail" @keyup="alert=''" @keyup.enter="makeGuess"  :error-messages="alert" autofocus )
         template(v-slot:append)
           v-btn(@click="makeGuess" :disabled="!currentGuess || win || fail") Guess
@@ -201,7 +205,7 @@ export default {
       if (window.location.search.match(/game=\d+/)) {
         const gameNumber = +window.location.search.match(/game=(\d+)/)[1];
         console.log(gameNumber);
-        if (gameNumber <= this.daysSinceStart) {
+        if (gameNumber <= this.daysSinceStart || gameNumber > 1000) {
           return gameNumber;
         }
       } else if (this.isUnlimited()) {
@@ -365,4 +369,12 @@ export default {
   watch: {},
 };
 </script>
-<style scoped></style>
+<style>
+#hintmap .mapbox-ctrl-attrib-inner {
+  opacity: 0.01;
+}
+
+#hintmap .mapboxgl-control-container {
+  display: none;
+}
+</style>
