@@ -83,6 +83,10 @@ function initGraph() {
   graph = new graphology.Graph()
 
   function addEdge(a,b) {
+    const combined = [a,b].sort().join('-')
+    if (combined === 'caulfield-south yarra') {
+      return
+    }
     // console.log(a,b)
     graph.addEdge(a,b)
     graph.addEdge(b,a)
