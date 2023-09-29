@@ -12,7 +12,6 @@ import { stations } from "../stations";
 export default {
   props: ["center", "reveal", "target"],
   async mounted() {
-    console.log(this.center);
     mapboxgl.accessToken =
       "pk.eyJ1Ijoic3RldmFnZSIsImEiOiJjbG1vZGE4cXgwbjY4MmptcHN1d2M4YWYyIn0.AFsAhFFbMnuo9e3NgICpFw";
     const map = new mapboxgl.Map({
@@ -20,15 +19,20 @@ export default {
       center: this.center,
       bearing: Math.random() * 360,
       pitch: 60,
-      zoom: 17,
+      zoom: 16,
+      maxZoom: 17,
+      minZoom: 16,
       style: "mapbox://styles/stevage/cln2oqki1005301py6ra652qr/draft",
       interactive: false,
     });
     U.init(map, mapboxgl);
     window.hintmap = map;
     this.hintmap = map;
-    map.once("sourcedata", () => {
-      const markers = map
+    window.HintMap = this;
+    let markers = [];
+    map.on("sourcedata", () => {
+      // if (markers.length) return;
+      markers = map
         .querySourceFeatures("composite", {
           sourceLayer: "transit_stop_label",
         })
@@ -46,26 +50,32 @@ export default {
         .filter(
           (f) =>
             f.properties.type === "platform" &&
-            f.properties.class.match(/path|pedestrian/),
+            f.properties.class.match(/path|pedestrian/) &&
+            !(f.properties.name || "").match(/^Stop /) &&
+            turf.distance(turf.centroid(f), this.center, { units: "meters" }) <
+              200,
         );
       const fs = [...markers, ...platforms];
       if (fs.length) {
-        const b = turf.bbox(turf.featureCollection(fs));
-        map.fitBounds(b, {
-          padding: 20,
-          pitch: map.getPitch(),
-          bearing: map.getBearing(),
-        });
-        // map.setCenter(
-        //   turf.centroid(turf.featureCollection(fs)).geometry.coordinates,
-        // );
+        this.bounds = turf.bbox(turf.featureCollection(fs));
+        this.recenter();
       }
-      // if (f) {
-      //   map.setCenter(f.geometry.coordinates);
-
-      // }
-      // console.log(f);
     });
+  },
+  methods: {
+    recenter() {
+      try {
+        this.hintmap.fitBounds(this.bounds, {
+          pitch: this.hintmap.getPitch(),
+          bearing: this.hintmap.getBearing(),
+          maxZoom: 17,
+        });
+      } catch (e) {
+        // example: game 20840
+        this.hintmap.setCenter(this.center);
+        this.hintmap.setZoom(17);
+      }
+    },
   },
   watch: {
     reveal() {
@@ -74,6 +84,10 @@ export default {
         this.hintmap.U.hide(/trainle/);
 
         this.hintmap.zoomTo(15);
+        window.setTimeout(() => {
+          this.hintmap.resize();
+          this.recenter();
+        }, 100);
       }
     },
   },

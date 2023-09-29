@@ -21,9 +21,9 @@ v-app
 
         .text-body-1.mt-4(v-if="isUnlimited()") Refresh the page to get a new target station.
 
-      //- div.py-3(:style="{display:'flex',justifyContent:'center'}")
-      //-   div(v-if=" target" :style="{position:'relative', height:'200px', width: playing ? '200px' : '100%'}")
-      //-     HintMap(:center="stationByName(target).geometry.coordinates" :reveal="win || fail" :target="target")
+      div.py-3(v-if="showHintMap" :style="{display:'flex',justifyContent:'center'}")
+        div(v-if=" target" :style="{position:'relative', height:'200px', width: playing ? '200px' : '100%'}")
+          HintMap(:center="stationByName(target).geometry.coordinates" :reveal="win || fail" :target="target")
       v-text-field(label="Guess a station" placeholder="Flinders Street" v-model="currentGuess" :disabled="win || fail" @keyup="alert=''" @keyup.enter="makeGuess"  :error-messages="alert" autofocus )
         template(v-slot:append)
           v-btn(@click="makeGuess" :disabled="!currentGuess || win || fail") Guess
@@ -340,6 +340,9 @@ export default {
     },
   },
   computed: {
+    showHintMap() {
+      return window.location.search.match(/startmap/);
+    },
     playing() {
       return !this.win && !this.fail;
     },
