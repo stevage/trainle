@@ -75,13 +75,10 @@ v-app
     div(style="height:40px")
     v-bottom-navigation
       v-footer
-        div(style="display:flex; ")
+        div(style="width:100%;display:flex; justify-content:space-between")
+          div Made by <a href="https://hire.stevebennett.me"> Steve Bennett</a>. <a href="https://github.com/stevage/trainle">Bugs/feedback</a>.
           div
-            | Made by&nbsp;
-            a(href="https://hire.stevebennett.me") Steve Bennett
-            | .
-          div
-            p No personal information collected. Usage stats collected with <a href="https://getinsights.io/what-data-we-collect">Insights</a>.
+            | No personal information collected. Usage stats collected with <a href="https://getinsights.io/what-data-we-collect">Insights</a>.
 
 </template>
 
