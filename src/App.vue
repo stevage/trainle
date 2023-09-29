@@ -16,8 +16,8 @@ v-app
         span(v-else)  \#{{ gameNumber }}
         span 🚂
       v-sheet.my-5
-        .text-body-1 Each day there is a randomly chosen target station on Melbourne's metro train network.
-        .text-body-1.mt-4 Guess a station to see how many stations to the target, and the distance as the crow flies.
+        .text-body-1 Try to guess today's mystery station on Melbourne's metro train network.
+        .text-body-1.mt-4 Each guess reveals how many stations to the target, and the distance as the crow flies.
 
         .text-body-1.mt-4(v-if="isUnlimited()") Refresh the page to get a new target station.
 
