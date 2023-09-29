@@ -64,9 +64,9 @@ v-app
       template(v-if="win || fail")
         v-card.elevation-8.my-2( style="border: 1px solid hsl(180,0%,70%)" :title="`${win ? 'Yes! ' : ''}The station is ${ titleCase(target)}.`" :class="{ 'bg-green-lighten-5': win, 'bg-red-lighten-5': fail }")
           v-card-text
-            div(v-html="shareText.replace(/\\n/g,'<br>')")
-          v-card-actions
-            v-btn.my-4.bg-white(@click="copyWin" ) Copy text
+            div(style="display: flex; flex-direction:row")
+              div.pr-2(style="flex-grow: 1" v-html="shareText.replace(/\\n/g,'<br>')")
+              v-btn.my-4.bg-white(@click="copyWin" style="flex-grow:0") Copy
       .map-container(v-if="fail || win" style="width:100%; height:calc(max(50vh, 200px)); position:relative")
         Map( :guesses="guesses.map(g=>g.station)" :target="target")
 
