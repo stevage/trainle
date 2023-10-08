@@ -139,11 +139,12 @@ export function getShortestPath(from: string, to: string) {
 export function stopDistance(from:string, to:string) {
   return getShortestPath(from, to).length -1;
 }
-
+window.sd = stopDistance
 window.gsp = getShortestPath
 
 export function stationByName(stationName) {
-  return stations.find(station => station.properties.name === stationName)
+  const normalize = name => name.toLowerCase().replace(/[^a-z]/g, '')
+  return stations.find(station => normalize(station.properties.name) === normalize( stationName))
 }
 
 export function hintForStation(station, target, hintsLeft) {

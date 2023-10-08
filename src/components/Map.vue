@@ -28,6 +28,7 @@ export default {
       stations.find((s) => s.properties.name === g),
     );
     map.fitBounds(turf.bbox(turf.featureCollection(geoGuesses)), {
+      maxZoom: 12,
       padding: 80,
     });
 

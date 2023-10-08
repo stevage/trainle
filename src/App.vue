@@ -27,7 +27,7 @@ v-app
       v-text-field(label="Guess a station" placeholder="Flinders Street" v-model="currentGuess" :disabled="win || fail" @keyup="alert=''" @keyup.enter="makeGuess"  :error-messages="alert" autofocus )
         template(v-slot:append)
           v-btn(@click="makeGuess" :disabled="!currentGuess || win || fail") Guess
-      a.text-body-2.ml-4.mb-4(v-if="guesses.length" href="#" style="display:block;margin-top:-8px" @click.prevent="needHint" ) Need a hint?
+      a.text-body-2.ml-4.mb-4(v-if="guesses.length && playing" href="#" style="display:block;margin-top:-8px" @click.prevent="needHint" ) Need a hint?
       v-expand-transition
         v-table(v-if="guesses.length")
           thead
@@ -71,8 +71,8 @@ v-app
         Map( :guesses="guesses.map(g=>g.station)" :target="target")
 
       #game-over
-      button#restart(v-if="isUnlimited() && (fail || win)" type="submit" @click="restart") Play again
-    div(style="height:40px")
+      v-btn#restart(v-if="isUnlimited() && (fail || win)" type="submit" @click="restart") Play again
+    div(style="height:80px")
     v-bottom-navigation
       v-footer
         div(style="width:100%;display:flex; justify-content:space-between")
@@ -84,6 +84,7 @@ v-app
 
 <script>
 import shuffle from "fisher-yates";
+import confetti from "canvas-confetti";
 import {
   getShortestPath,
   stationNames,
@@ -131,8 +132,17 @@ export default {
     },
     normalizeRawGuess(guess) {
       let s = this.currentGuess.toLowerCase().trim();
-      s = { jolimont: "jolimont-mcg" }[s] || s;
-      return s;
+      s =
+        {
+          jolimont: "jolimont-mcg",
+          "flinders st": "flinders street",
+          macauley: "macaulay",
+          jewel: "jewell",
+          ansty: "anstey",
+          "spencer st": "southern cross",
+          "spencer street": "southern cross",
+        }[s] || s;
+      return stationByName(s)?.properties?.name || s;
     },
     makeGuess() {
       const guess = this.normalizeRawGuess(this.currentGuess);
@@ -174,24 +184,30 @@ export default {
       });
       this.actions.push(this.actionSymbol(stopDistance));
       if (guess === this.target) {
-        this.win = true;
-        this.actions.push("🎉");
-        document
-          .querySelector("#game-over")
-          .scrollIntoView({ behaviour: "smooth" });
-        window.insights?.track({
-          id: "win",
-          parameters: {
-            guessCount: this.guesses.length,
-            hintCount: this.hints.length,
-            target: this.target,
-            actions: this.actions,
-            guesses: this.guesses.map((g) => g.station),
-          },
-        });
+        this.winGame();
       }
       this.currentGuess = "";
       this.updateCookie();
+    },
+    winGame() {
+      this.win = true;
+      this.actions.push("🎉");
+      window.setTimeout(() => {
+        document
+          .querySelector("#game-over")
+          .scrollIntoView({ behaviour: "smooth" });
+      }, 200);
+      window.insights?.track({
+        id: "win",
+        parameters: {
+          guessCount: this.guesses.length,
+          hintCount: this.hints.length,
+          target: this.target,
+          actions: this.actions,
+          guesses: this.guesses.map((g) => g.station),
+        },
+      });
+      showConfetti();
     },
     targetForGameNumber(gameNumber) {
       const prng = pseudoRandom(3411098);
@@ -371,6 +387,49 @@ export default {
   },
   watch: {},
 };
+
+function showConfetti() {
+  var defaults = {
+    spread: 360,
+    ticks: 100,
+    gravity: 0.5,
+    decay: 0.94,
+    startVelocity: 15,
+    colors: [
+      "FFE400",
+      "FFBD00",
+      "E89400",
+      "FFCA6C",
+      "FDFFB8",
+      "#ff5555",
+      "#ff55ff",
+    ],
+    useWorker: true,
+  };
+
+  function shoot({ ...options } = {}) {
+    confetti({
+      ...defaults,
+      ...options,
+      particleCount: 40,
+      scalar: 1.2,
+      shapes: ["star"],
+    });
+
+    confetti({
+      ...defaults,
+      ...options,
+      particleCount: 10,
+      scalar: 0.75,
+      shapes: ["circle"],
+    });
+  }
+
+  setTimeout(shoot, 0);
+  setTimeout(shoot, 200);
+  setTimeout(shoot, 400, { startVelocity: 20 });
+  setTimeout(shoot, 600, { startVelocity: 30 });
+}
 </script>
 <style>
 #hintmap .mapbox-ctrl-attrib-inner {
