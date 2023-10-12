@@ -146,7 +146,25 @@ export default {
     },
     makeGuess() {
       const guess = this.normalizeRawGuess(this.currentGuess);
-      window.insights?.track({
+      if (this.guesses.map((g) => g.station).includes(guess)) {
+        this.alert = "You already guessed that station";
+        return;
+      }
+      if (!stationNames.includes(guess)) {
+        window.track({
+          id: "invalid-guess",
+          parameters: { guess },
+        });
+        this.alert = "Invalid station name";
+        return;
+      }
+      if (this.guesses.length === 0) {
+        window.track({
+          id: "first-guess",
+          parameters: { guess },
+        });
+      }
+      window.track({
         id: "guess",
         parameters: {
           guess,
@@ -154,24 +172,7 @@ export default {
           actions: this.actions,
         },
       });
-      if (this.guesses.length === 0) {
-        window.insights?.track({
-          id: "first-guess",
-          parameters: { guess },
-        });
-      }
-      if (this.guesses.map((g) => g.station).includes(guess)) {
-        this.alert = "You already guessed that station";
-        return;
-      }
-      if (!stationNames.includes(guess)) {
-        window.insights?.track({
-          id: "invalid-guess",
-          parameters: { guess },
-        });
-        this.alert = "Invalid station name";
-        return;
-      }
+
       this.alert = "";
       const stopDistance = getShortestPath(this.target, guess).length - 1;
       const distance = Math.round(stationDistance(this.target, guess));
@@ -197,7 +198,7 @@ export default {
           .querySelector("#game-over")
           .scrollIntoView({ behaviour: "smooth" });
       }, 200);
-      window.insights?.track({
+      window.track({
         id: "win",
         parameters: {
           guessCount: this.guesses.length,
@@ -261,7 +262,7 @@ export default {
       document
         .querySelector("#game-over")
         .scrollIntoView({ behaviour: "smooth" });
-      window.insights?.track({
+      window.track({
         id: "giveup",
         parameters: {
           guessCount: this.guesses.length,
@@ -287,7 +288,7 @@ export default {
       this.hints.push(hintText);
       this.actions.push("🛟");
       this.updateCookie();
-      window.insights?.track({
+      window.track({
         id: "hint",
         parameters: {
           bestDistance,
@@ -327,22 +328,19 @@ export default {
         const cookie = localStorage.getItem(this.gameNumber);
         if (cookie) {
           const data = JSON.parse(cookie);
-          if (
-            this.gameNumber == 3 &&
-            (data.win || data.fail) &&
-            data.guesses.slice(-1)[0].station === "hurstbridge"
-          ) {
-            return;
-          }
+
           this.guesses = data.guesses;
           this.hints = data.hints;
           this.actions = data.actions;
           this.hintsLeft = data.hintsLeft;
           this.win = data.win;
           this.fail = data.fail;
+        } else {
+          window.track({ id: "pageview", parameters: {} });
         }
       } catch (e) {
         console.log(e);
+        window.track({ id: "pageview", parameters: {} });
       }
     },
     validateStation(v) {
@@ -430,6 +428,31 @@ function showConfetti() {
   setTimeout(shoot, 400, { startVelocity: 20 });
   setTimeout(shoot, 600, { startVelocity: 30 });
 }
+
+window.track = function ({ id, parameters }) {
+  const url =
+    window.location.hostname === "localhost" &&
+    !window.location.search.match(/glitch/)
+      ? "http://localhost:3080/event"
+      : "https://trainle-backend.glitch.me/event";
+  fetch(url, {
+    method: "POST",
+    body: JSON.stringify({
+      site: "melbourne",
+      event: id,
+      gamenumber: window.app.gameNumber,
+      target: window.app.target,
+      guesscount: window.app.guesses.length,
+      data: {
+        ...parameters,
+      },
+    }),
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  window.insights?.track({ id, parameters });
+};
 </script>
 <style>
 #hintmap .mapbox-ctrl-attrib-inner {
