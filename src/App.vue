@@ -169,6 +169,7 @@ export default {
         parameters: {
           guess,
           guessCount: this.guesses.length,
+          guesses: this.guesses.map((g) => g.station),
           actions: this.actions,
         },
       });
@@ -231,7 +232,7 @@ export default {
       return this.daysSinceStart;
     },
     isUnlimited() {
-      return window.location.search.match(/unlimited/);
+      return !!window.location.search.match(/unlimited/);
     },
     testRandom() {
       const stations = {};
@@ -253,7 +254,8 @@ export default {
       this.actions = [];
       this.gameNumber = this.getGameNumber();
       this.target = this.targetForGameNumber(this.gameNumber);
-      if (window.location.hostname !== "localhost") this.loadCookie();
+      this.sessionid = String(Math.random() + (new Date() % 86400000));
+      if (window.location.hostname !== "localhostz") this.loadCookie();
     },
     giveup() {
       this.fail = true;
@@ -317,6 +319,7 @@ export default {
             win: this.win,
             fail: this.fail,
             gameNumber: this.gameNumber,
+            sessionid: this.sessionid,
           }),
         );
       } catch (e) {
@@ -335,6 +338,7 @@ export default {
           this.hintsLeft = data.hintsLeft;
           this.win = data.win;
           this.fail = data.fail;
+          this.sessionid = data.sessionid;
         } else {
           window.track({ id: "pageview", parameters: {} });
         }
@@ -429,24 +433,32 @@ function showConfetti() {
   setTimeout(shoot, 600, { startVelocity: 30 });
 }
 
-window.track = function ({ id, parameters }) {
+window.track = ({ id, parameters }) => {
   const url =
     window.location.hostname === "localhost" &&
     !window.location.search.match(/glitch/)
       ? "http://localhost:3080/event"
       : "https://trainle-backend.glitch.me/event";
+  const body = JSON.stringify({
+    site: "melbourne",
+    event: id,
+    gamenumber: window.app.gameNumber,
+    target: window.app.target,
+    guesscount: window.app.guesses.length,
+    options: {
+      startmap: !!window.app.showHintMap,
+      unlimited: window.app.isUnlimited(),
+      dev: window.location.hostname === "localhost",
+    },
+    sessionid: window.app.sessionid,
+    data: {
+      ...parameters,
+    },
+  });
+  console.log(body);
   fetch(url, {
     method: "POST",
-    body: JSON.stringify({
-      site: "melbourne",
-      event: id,
-      gamenumber: window.app.gameNumber,
-      target: window.app.target,
-      guesscount: window.app.guesses.length,
-      data: {
-        ...parameters,
-      },
-    }),
+    body,
     headers: {
       "Content-Type": "application/json",
     },
