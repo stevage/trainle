@@ -1,9 +1,9 @@
 <script setup>
 window.g = getShortestPath;
 import Map from "./components/Map.vue";
-import pseudoRandom from "pseudo-random";
 import HintMap from "./components/HintMap.vue";
 import { stationByName } from "./stations";
+import { targetForGameNumber } from "./utils.ts";
 </script>
 
 <template lang="pug">
@@ -83,7 +83,6 @@ v-app
 </template>
 
 <script>
-import shuffle from "fisher-yates";
 import confetti from "canvas-confetti";
 import {
   getShortestPath,
@@ -211,13 +210,6 @@ export default {
       });
       showConfetti();
     },
-    targetForGameNumber(gameNumber) {
-      const prng = pseudoRandom(3411098);
-      const stations = shuffle(stationNames, prng.random);
-
-      const first = stations.slice(0, 20);
-      return stations[gameNumber % stations.length];
-    },
 
     getGameNumber() {
       if (window.location.search.match(/game=\d+/)) {
@@ -236,14 +228,26 @@ export default {
     },
     testRandom() {
       const stations = {};
-      const runs = 10000;
+      const runs = 1000;
       for (let i = 1; i < runs; i++)
-        stations[app.targetForGameNumber(i)] =
-          (stations[app.targetForGameNumber(i)] || 0) + 1;
-      const counts = Object.values(stations).sort();
-      console.log(...counts.slice(0, 10), "...", ...counts.slice(-10));
+        stations[targetForGameNumber(i)] =
+          (stations[targetForGameNumber(i)] || 0) + 1;
+      const counts = Object.values(stations)
+        .map((n) => +n)
+        .sort((a, b) => a - b);
+      console.log(...counts.slice(0, 50), "...", ...counts.slice(-50));
       console.log("expected", runs / stationNames.length);
       console.log(`${stationNames.length - counts.length} missing`);
+      console.log(Object.values(stations));
+      const ss = tt; //Object.keys(stations);
+      // console.log(ss);
+      console.log(
+        ss
+          .slice(0, 300)
+          .map((s, i) => ss.slice(i + 1).indexOf(s))
+          .sort((a, b) => a - b)
+          .join(","),
+      );
     },
     restart() {
       this.win = false;
@@ -253,7 +257,7 @@ export default {
       this.hints = [];
       this.actions = [];
       this.gameNumber = this.getGameNumber();
-      this.target = this.targetForGameNumber(this.gameNumber);
+      this.target = targetForGameNumber(this.gameNumber);
       this.sessionid = String(Math.random() + (new Date() % 86400000));
       if (window.location.hostname !== "localhostz") this.loadCookie();
     },
@@ -449,6 +453,7 @@ window.track = ({ id, parameters }) => {
       startmap: !!window.app.showHintMap,
       unlimited: window.app.isUnlimited(),
       dev: window.location.hostname === "localhost",
+      time: String(new Date()),
     },
     sessionid: window.app.sessionid,
     data: {
