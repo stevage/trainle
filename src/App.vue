@@ -370,9 +370,7 @@ export default {
     },
     daysSinceStart() {
       const midnightOfToday = new Date();
-      midnightOfToday.setHours(0, 0, 0, 0);
       const midnightOfStart = new Date("2023-09-19");
-      midnightOfStart.setHours(0, 0, 0, 0);
 
       const diff = midnightOfToday.getTime() - midnightOfStart.getTime();
       return Math.floor(diff / (1000 * 60 * 60 * 24)) + 1;
