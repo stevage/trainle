@@ -78,7 +78,7 @@ v-app
         div(style="width:100%;display:flex; justify-content:space-between")
           div Made by <a href="https://hire.stevebennett.me"> Steve Bennett</a>. <a href="https://github.com/stevage/trainle">Bugs/feedback</a>.
           div
-            | No personal information collected. Usage stats collected with <a href="https://getinsights.io/what-data-we-collect">Insights</a>.
+            | No personal information collected.
 
 </template>
 
@@ -468,7 +468,6 @@ window.track = ({ id, parameters }) => {
       "Content-Type": "application/json",
     },
   });
-  window.insights?.track({ id, parameters });
 };
 </script>
 <style>

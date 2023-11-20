@@ -1,0 +1,1169 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              144.9508132,
+              -37.8179635
+            ],
+            [
+              144.9517931,
+              -37.8191956
+            ],
+            [
+              144.9517328,
+              -37.819221
+            ],
+            [
+              144.9516777,
+              -37.8192443
+            ],
+            [
+              144.9517384,
+              -37.8193052
+            ],
+            [
+              144.9519833,
+              -37.8195181
+            ],
+            [
+              144.9520259,
+              -37.8195088
+            ],
+            [
+              144.9521545,
+              -37.8194809
+            ],
+            [
+              144.9521361,
+              -37.8194357
+            ],
+            [
+              144.9538801,
+              -37.8189921
+            ],
+            [
+              144.9538423,
+              -37.8189
+            ],
+            [
+              144.953681,
+              -37.818506
+            ],
+            [
+              144.9535513,
+              -37.8181928
+            ],
+            [
+              144.9534789,
+              -37.818018
+            ],
+            [
+              144.9533844,
+              -37.8177897
+            ],
+            [
+              144.953322,
+              -37.817639
+            ],
+            [
+              144.9532771,
+              -37.8175306
+            ],
+            [
+              144.9531882,
+              -37.8173159
+            ],
+            [
+              144.9531568,
+              -37.8172355
+            ],
+            [
+              144.9529538,
+              -37.8172964
+            ],
+            [
+              144.9526723,
+              -37.8173846
+            ],
+            [
+              144.9526609,
+              -37.8173885
+            ],
+            [
+              144.9526115,
+              -37.8174031
+            ],
+            [
+              144.9517603,
+              -37.8176749
+            ],
+            [
+              144.9516316,
+              -37.8177563
+            ],
+            [
+              144.9514154,
+              -37.8178474
+            ],
+            [
+              144.9513741,
+              -37.8178648
+            ],
+            [
+              144.9511826,
+              -37.8179188
+            ],
+            [
+              144.9511252,
+              -37.8179326
+            ],
+            [
+              144.9508132,
+              -37.8179635
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "nameUp": "Southern Cross",
+        "lines": "Bendigo"
+      }
+    },
+    {
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              144.3749955,
+              -37.1897081
+            ],
+            [
+              144.375062,
+              -37.1897328
+            ],
+            [
+              144.3750753,
+              -37.18971
+            ],
+            [
+              144.3750088,
+              -37.1896853
+            ],
+            [
+              144.3749955,
+              -37.1897081
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "nameUp": "Malmsbury",
+        "lines": "Bendigo,Swan Hill,Echuca"
+      }
+    },
+    {
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              144.4147323,
+              -38.0218054
+            ],
+            [
+              144.4147147,
+              -38.0218243
+            ],
+            [
+              144.4147052,
+              -38.0218182
+            ],
+            [
+              144.4145824,
+              -38.0219377
+            ],
+            [
+              144.4145934,
+              -38.0219445
+            ],
+            [
+              144.4144788,
+              -38.0220593
+            ],
+            [
+              144.4145206,
+              -38.0220879
+            ],
+            [
+              144.4145683,
+              -38.0221179
+            ],
+            [
+              144.4148294,
+              -38.0218646
+            ],
+            [
+              144.4147323,
+              -38.0218054
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "nameUp": "Lara",
+        "lines": "Warrnambool,Geelong"
+      }
+    },
+    {
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              144.3799049,
+              -38.0722783
+            ],
+            [
+              144.3797895,
+              -38.0724673
+            ],
+            [
+              144.3798525,
+              -38.0724884
+            ],
+            [
+              144.3799639,
+              -38.0722994
+            ],
+            [
+              144.3799049,
+              -38.0722783
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "nameUp": "Corio",
+        "lines": "Warrnambool,Geelong"
+      }
+    },
+    {
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              146.871308,
+              -36.1056961
+            ],
+            [
+              146.8712991,
+              -36.1058337
+            ],
+            [
+              146.871761,
+              -36.1058225
+            ],
+            [
+              146.8718593,
+              -36.1056749
+            ],
+            [
+              146.8716331,
+              -36.1056836
+            ],
+            [
+              146.871308,
+              -36.1056961
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "nameUp": "Wodonga",
+        "lines": "Albury"
+      }
+    },
+    {
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              144.771312,
+              -37.7773255
+            ],
+            [
+              144.7712905,
+              -37.7773753
+            ],
+            [
+              144.7715131,
+              -37.7774378
+            ],
+            [
+              144.7715333,
+              -37.777388
+            ],
+            [
+              144.771312,
+              -37.7773255
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "nameUp": "Deer Park",
+        "lines": "Warrnambool,Ararat,Geelong,Ballarat"
+      }
+    },
+    {
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              143.8199036,
+              -37.5396209
+            ],
+            [
+              143.8198727,
+              -37.5396677
+            ],
+            [
+              143.8198048,
+              -37.5396635
+            ],
+            [
+              143.8197801,
+              -37.5396932
+            ],
+            [
+              143.8202307,
+              -37.5397505
+            ],
+            [
+              143.820254,
+              -37.539715
+            ],
+            [
+              143.8201713,
+              -37.5397059
+            ],
+            [
+              143.8201399,
+              -37.5396441
+            ],
+            [
+              143.8199036,
+              -37.5396209
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "nameUp": "Wendouree",
+        "lines": "Ararat,Ballarat"
+      }
+    },
+    {
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              144.3522221,
+              -38.1222825
+            ],
+            [
+              144.3521836,
+              -38.1224916
+            ],
+            [
+              144.3522696,
+              -38.1225007
+            ],
+            [
+              144.3523162,
+              -38.1222911
+            ],
+            [
+              144.3522221,
+              -38.1222825
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "nameUp": "North Geelong",
+        "lines": "Warrnambool,Geelong"
+      }
+    },
+    {
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              145.2295075,
+              -36.8936029
+            ],
+            [
+              145.2295583,
+              -36.8936327
+            ],
+            [
+              145.2296359,
+              -36.8935482
+            ],
+            [
+              145.2296055,
+              -36.8935304
+            ],
+            [
+              145.2296254,
+              -36.8935088
+            ],
+            [
+              145.229605,
+              -36.8934968
+            ],
+            [
+              145.2295075,
+              -36.8936029
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "nameUp": "Avenel",
+        "lines": "Albury"
+      }
+    },
+    {
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              145.7189504,
+              -36.6379121
+            ],
+            [
+              145.7189814,
+              -36.6379702
+            ],
+            [
+              145.7191768,
+              -36.6379021
+            ],
+            [
+              145.7191251,
+              -36.6378067
+            ],
+            [
+              145.7190461,
+              -36.6378344
+            ],
+            [
+              145.7190664,
+              -36.6378718
+            ],
+            [
+              145.7189504,
+              -36.6379121
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "nameUp": "Violet Town",
+        "lines": "Albury"
+      }
+    },
+    {
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              146.6112105,
+              -36.1558553
+            ],
+            [
+              146.6118214,
+              -36.1557165
+            ],
+            [
+              146.6124563,
+              -36.1555551
+            ],
+            [
+              146.6124204,
+              -36.1554593
+            ],
+            [
+              146.6111686,
+              -36.1557574
+            ],
+            [
+              146.6112105,
+              -36.1558553
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "nameUp": "Chiltern",
+        "lines": "Albury"
+      }
+    },
+    {
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              144.5988932,
+              -37.4589724
+            ],
+            [
+              144.5991105,
+              -37.4590214
+            ],
+            [
+              144.5991319,
+              -37.4589522
+            ],
+            [
+              144.5990856,
+              -37.4589415
+            ],
+            [
+              144.599091,
+              -37.4589234
+            ],
+            [
+              144.5989696,
+              -37.4588984
+            ],
+            [
+              144.5989629,
+              -37.4589154
+            ],
+            [
+              144.598914,
+              -37.4589069
+            ],
+            [
+              144.5988932,
+              -37.4589724
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "nameUp": "Gisborne",
+        "lines": "Bendigo,Swan Hill,Echuca"
+      }
+    },
+    {
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              144.6986904,
+              -36.362265
+            ],
+            [
+              144.6985566,
+              -36.3622083
+            ],
+            [
+              144.6984392,
+              -36.3623917
+            ],
+            [
+              144.6985707,
+              -36.3624465
+            ],
+            [
+              144.6986904,
+              -36.362265
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "nameUp": "Rochester",
+        "lines": "Echuca"
+      }
+    },
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          144.8014916,
+          -37.7829314
+        ]
+      },
+      "properties": {
+        "nameUp": "Ardeer",
+        "lines": "Ararat,Geelong,Ballarat"
+      }
+    },
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          144.4507646,
+          -37.2584031
+        ]
+      },
+      "properties": {
+        "nameUp": "Kyneton",
+        "lines": "Bendigo,Swan Hill,Echuca"
+      }
+    },
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          145.0264987,
+          -37.3545847
+        ]
+      },
+      "properties": {
+        "nameUp": "Wandong",
+        "lines": ""
+      }
+    },
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          144.5260842,
+          -37.3592999
+        ]
+      },
+      "properties": {
+        "nameUp": "Woodend",
+        "lines": "Bendigo,Swan Hill,Echuca"
+      }
+    },
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          144.3593889,
+          -38.1586761
+        ]
+      },
+      "properties": {
+        "nameUp": "South Geelong",
+        "lines": "Warrnambool,Geelong"
+      }
+    },
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          145.571552,
+          -38.0815572
+        ]
+      },
+      "properties": {
+        "nameUp": "Nar Nar Goon",
+        "lines": ""
+      }
+    },
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          146.7870027,
+          -38.1565571
+        ]
+      },
+      "properties": {
+        "nameUp": "Rosedale",
+        "lines": ""
+      }
+    },
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          147.0817077,
+          -37.9671274
+        ]
+      },
+      "properties": {
+        "nameUp": "Stratford",
+        "lines": ""
+      }
+    },
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          143.382294,
+          -37.4275983
+        ]
+      },
+      "properties": {
+        "nameUp": "Beaufort",
+        "lines": "Ararat"
+      }
+    },
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          144.4987369,
+          -37.9626364
+        ]
+      },
+      "properties": {
+        "nameUp": "Little River",
+        "lines": "Warrnambool,Geelong"
+      }
+    },
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          144.113284,
+          -36.0531941
+        ]
+      },
+      "properties": {
+        "nameUp": "Pyramid",
+        "lines": ""
+      }
+    },
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          144.6075801,
+          -36.49488
+        ]
+      },
+      "properties": {
+        "nameUp": "Elmore",
+        "lines": ""
+      }
+    },
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          144.4368308,
+          -37.6876002
+        ]
+      },
+      "properties": {
+        "nameUp": "Bacchus Marsh",
+        "lines": "Ararat,Ballarat"
+      }
+    },
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          143.8593693,
+          -37.5587442
+        ]
+      },
+      "properties": {
+        "nameUp": "Ballarat",
+        "lines": "Ararat,Ballarat,Maryborough"
+      }
+    },
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          144.6505805,
+          -37.7291013
+        ]
+      },
+      "properties": {
+        "nameUp": "Rockbank",
+        "lines": "Ararat,Ballarat"
+      }
+    },
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          143.8880579,
+          -37.423954
+        ]
+      },
+      "properties": {
+        "nameUp": "Creswick",
+        "lines": "Maryborough"
+      }
+    },
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          143.5868969,
+          -38.3432726
+        ]
+      },
+      "properties": {
+        "nameUp": "Colac",
+        "lines": "Warrnambool"
+      }
+    },
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          144.3654109,
+          -38.0983238
+        ]
+      },
+      "properties": {
+        "nameUp": "North Shore",
+        "lines": "Warrnambool,Geelong"
+      }
+    },
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          142.9113957,
+          -38.2362597
+        ]
+      },
+      "properties": {
+        "nameUp": "Terang",
+        "lines": "Warrnambool"
+      }
+    },
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          143.9837625,
+          -38.2401906
+        ]
+      },
+      "properties": {
+        "nameUp": "Winchelsea",
+        "lines": "Warrnambool"
+      }
+    },
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          144.2253446,
+          -37.604234
+        ]
+      },
+      "properties": {
+        "nameUp": "Ballan",
+        "lines": "Ararat,Ballarat"
+      }
+    },
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          143.7820786,
+          -37.302731
+        ]
+      },
+      "properties": {
+        "nameUp": "Clunes",
+        "lines": "Maryborough"
+      }
+    },
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          144.354996,
+          -38.1987243
+        ]
+      },
+      "properties": {
+        "nameUp": "Marshall",
+        "lines": "Warrnambool,Geelong"
+      }
+    },
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          142.5388551,
+          -38.3863794
+        ]
+      },
+      "properties": {
+        "nameUp": "Sherwood Park",
+        "lines": "Warrnambool"
+      }
+    },
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          143.7833283,
+          -38.3287226
+        ]
+      },
+      "properties": {
+        "nameUp": "Birregurra",
+        "lines": "Warrnambool"
+      }
+    },
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          144.5722479,
+          -37.7033398
+        ]
+      },
+      "properties": {
+        "nameUp": "Melton",
+        "lines": "Ararat,Ballarat"
+      }
+    },
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          143.1507928,
+          -38.2288249
+        ]
+      },
+      "properties": {
+        "nameUp": "Camperdown",
+        "lines": "Warrnambool"
+      }
+    },
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          144.5045614,
+          -36.6147883
+        ]
+      },
+      "properties": {
+        "nameUp": "Goornong",
+        "lines": "Echuca"
+      }
+    },
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          144.7452422,
+          -37.4835828
+        ]
+      },
+      "properties": {
+        "nameUp": "Clarkefield",
+        "lines": "Bendigo,Swan Hill,Echuca"
+      }
+    },
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          144.6799996,
+          -37.4649363
+        ]
+      },
+      "properties": {
+        "nameUp": "Riddells Creek",
+        "lines": "Bendigo,Swan Hill,Echuca"
+      }
+    },
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          144.320888,
+          -36.7071067
+        ]
+      },
+      "properties": {
+        "nameUp": "Epsom",
+        "lines": "Bendigo,Echuca"
+      }
+    },
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          145.6743633,
+          -38.0911408
+        ]
+      },
+      "properties": {
+        "nameUp": "Garfield",
+        "lines": ""
+      }
+    },
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          144.6084185,
+          -37.8722432
+        ]
+      },
+      "properties": {
+        "nameUp": "Wyndham Vale",
+        "lines": "Warrnambool,Geelong,Wyndham Vale Station"
+      }
+    },
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          144.69462,
+          -37.8321522
+        ]
+      },
+      "properties": {
+        "nameUp": "Tarneit",
+        "lines": "Warrnambool,Geelong"
+      }
+    },
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          144.7355342,
+          -37.7660719
+        ]
+      },
+      "properties": {
+        "nameUp": "Caroline Springs",
+        "lines": "Ararat,Ballarat"
+      }
+    },
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          143.7063818,
+          -37.1709526
+        ]
+      },
+      "properties": {
+        "nameUp": "Talbot",
+        "lines": "Maryborough"
+      }
+    },
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          144.3061193,
+          -38.2158244
+        ]
+      },
+      "properties": {
+        "nameUp": "Waurn Ponds",
+        "lines": "Warrnambool,Geelong"
+      }
+    },
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          143.7425571,
+          -37.0511432
+        ]
+      },
+      "properties": {
+        "nameUp": "Maryborough",
+        "lines": "Maryborough"
+      }
+    },
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          144.6040773,
+          -37.7125512
+        ]
+      },
+      "properties": {
+        "nameUp": "Cobblebank",
+        "lines": "Ballarat"
+      }
+    },
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          146.4704826,
+          -36.186326
+        ]
+      },
+      "properties": {
+        "nameUp": "Springhurst",
+        "lines": "Albury"
+      }
+    },
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          144.355077,
+          -38.1442691
+        ]
+      },
+      "properties": {
+        "nameUp": "Geelong",
+        "lines": "Warrnambool,Geelong,Geelong Station"
+      }
+    },
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          144.3682581,
+          -36.6663912
+        ]
+      },
+      "properties": {
+        "nameUp": "Huntly",
+        "lines": ""
+      }
+    },
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          144.2013902,
+          -36.5341923
+        ]
+      },
+      "properties": {
+        "nameUp": "Raywood",
+        "lines": ""
+      }
+    }
+  ]
+}
