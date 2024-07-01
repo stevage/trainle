@@ -57,6 +57,10 @@ window.sd = stationDistance
 function stationsForLine(line: string) {
   // console.log('stationsforline',line)
   const lineStations = stations.filter(station => station.properties.lines.includes(line))
+  // The last station on the Pakenham line is NOT Pakenham (it's East Pakenham)
+  if (line === "pakenham") {
+    line = "east pakenham";
+  }
   let current = lineStations.find(station => station.properties.name === line)
   if (!current) {
     return []
