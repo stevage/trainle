@@ -1,7 +1,7 @@
 // @ts-nocheck
 import graphology from 'graphology'
 import { bidirectional } from 'graphology-shortest-path'
-import stationsFC from './assets/stations.json'
+import stationsFC from './assets/stations_v2.json'
 import { distance } from '@turf/turf'
 export let stations = stationsFC.features
 for (const station of stations) {
