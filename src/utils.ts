@@ -3,6 +3,9 @@ import shuffle from "fisher-yates";
 
 import pseudoRandom from "pseudo-random";
 
+import stations_v1 from "./assets/solutions1.json";
+import stations_v2 from "./assets/solutions2.json";
+
 // precalculate target stations, avoiding short repeats
 function makeTargets(): string[] {
   const ret = [];
@@ -16,19 +19,20 @@ function makeTargets(): string[] {
     choices.splice(x, 1);
     choices.push(ret[i]);
   }
+  // console.log(ret);
   return ret;
 }
 
-const targets = makeTargets();
+// const targets = makeTargets();
 export function targetForGameNumber(gameNumber: number) {
   const prng = pseudoRandom(3411098);
   const stations = shuffle(stationNames, prng.random);
 
   if (gameNumber <= 35) {
     return stations[gameNumber % stations.length];
-  } else if (gameNumber >= targets.length) {
-    return stations[gameNumber % stations.length];
+  } else if (gameNumber < 290) {
+    return stations_v1[gameNumber];
   } else {
-    return targets[gameNumber];
+    return stations_v2[gameNumber];
   }
 }
