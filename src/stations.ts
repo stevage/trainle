@@ -1,23 +1,41 @@
 // @ts-nocheck
 import graphology from 'graphology'
 import { bidirectional } from 'graphology-shortest-path'
-import stationsFC from './assets/stations_v2.json'
+import stations_v1 from './assets/stations_v1.json'
+import stations_v2 from './assets/stations_v2.json'
+const defaultStations = stations_v2
 import { distance } from '@turf/turf'
-export let stations = stationsFC.features
-for (const station of stations) {
-  station.properties.nameUp = station.properties.STOP_NAME.replace(/ Railway Station.*$/, '')
-  if (station.properties.nameUp === 'Surrey Hills') {
-    station.properties.nameUp = 'Union';
-  } else if (station.properties.nameUp==='Glenhuntly') {
-    station.properties.nameUp = 'Glen Huntly'
+export let stations = defaultStations.features
+
+// Some special cases for json v1
+function readInStations_v1(jsonFile) {
+  let s = jsonFile.features;
+  for (const station of s) {
+    station.properties.nameUp = station.properties.STOP_NAME.replace(/ Railway Station.*$/, '')
+    // Only relevant for stations_v1
+    if (station.properties.nameUp === 'Surrey Hills') {
+      station.properties.nameUp = 'Union';
+    } else if (station.properties.nameUp==='Glenhuntly') {
+      station.properties.nameUp = 'Glen Huntly'
+    }
+    station.properties.lines = station.properties.ROUTEUSSP.toLowerCase().split(',')
+    station.properties.name = station.properties.nameUp.toLowerCase()
   }
-
-  station.properties.lines = station.properties.ROUTEUSSP.toLowerCase().split(',')
-  station.properties.name = station.properties.nameUp.toLowerCase()
-
+  return s.filter(s => s.properties.name !== 'mont albert').map(station => station.properties.name);
 }
-stations = stations.filter(s => s.properties.name !== 'mont albert');
-export const stationNames = stations.map(station => station.properties.name)
+// Should be used as default
+function readInStations(jsonFile) {
+  let s = jsonFile.features;
+  for (const station of s) {
+    station.properties.nameUp = station.properties.STOP_NAME.replace(/ Railway Station.*$/, '')
+    station.properties.lines = station.properties.ROUTEUSSP.toLowerCase().split(',')
+    station.properties.name = station.properties.nameUp.toLowerCase()
+  }
+  return s.map(station => station.properties.name);
+}
+export const stationNames_v1 = readInStations_v1(stations_v1);
+export const stationNames_v2 = readInStations(stations_v2);
+export const stationNames = stationNames_v2;
 
 window.s = stations
 window.sn = stationNames
