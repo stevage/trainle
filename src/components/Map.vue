@@ -8,6 +8,7 @@ import "mapbox-gl/dist/mapbox-gl.css";
 import U from "map-gl-utils/noflow/index";
 import * as turf from "@turf/turf";
 import { stations, stationDistance, stopDistance } from "../stations";
+import metro_tracks from "../assets/metro_routes.json"
 window.turf = turf;
 window.uuu = U;
 // import { EventBus } from "../EventBus";
@@ -36,33 +37,15 @@ export default {
     window.mapping = this;
     map.U.onLoad(() => {
       map.U.hide(/place-city/);
-      map.U.addGeoJSON("trains", "trainline.geojson");
+      map.U.addGeoJSON("trains", metro_tracks);
 
-      loadTrainLines().then((lineData) => map.U.setData("trains", lineData));
-      // const lineFilter = [
-      //   "!",
-      //   ["in", ["get", "name"], ["literal", "Sunshine - Gordon"]],
-      // ];
-      let lineFilter = [
-        "in",
-        ["get", "name"],
-        [
-          "literal",
-          "Laverton - Werribee,Newmarket - Broadmeadows,Clifton Hill - Mernda, Clifton Hill - Hurstbridge,Footscray - Sunshine,South Kensington - Footscray,North Melbourne - Upfield,Southern Cross - North Melbourne,Start Altona Loop - Laverton,Newport - Start Altona Loop,Newport - Williamstown,Footscray - Newport,Kensington - Newmarket,Newmarket - Flemington Racecourse,Flinders Street - Clifton Hill,Southern Cross - Flinders Street,South Yarra - Caulfield,Broadmeadows - Mangalore,Clifton Hill - Hurstbridge,Burnley - East Camberwell,East Camberwell - Alamein,East Camberwell - Ringwood,Ringwood - Lilydale,Ringwood - Belgrave,Caulfield - Dandenong,Dandenong - Cranbourne,Dandenong - Pakenham,Caulfield - Frankston,South Yarra - Sandringham,Burnley - Glen Waverley,Richmond - Burnley,Richmond - South Yarra,Frankston - Stony Point,Albion - Sydenham,Sunshine - Albion,North Melbourne - South Kensington,Flinders Street - Richmond,Sydenham - Castlemaine,Southern Cross - Southern Cross,Burnley Loop,Northern Loop".split(
-            ",",
-          ),
-        ],
-      ];
-      // lineFilter = true;
       map.U.addLine("trains-line", "trains", {
         lineColor: "hsl(180,50%,70%)",
         lineWidth: 5,
-        filter: lineFilter,
       });
       map.U.addLine("trains-line-inner", "trains", {
         lineColor: "hsl(180,50%,85%)",
         lineWidth: 3,
-        filter: lineFilter,
       });
       map.U.addSymbol("trains-label", "trains", {
         symbolPlacement: "line",
@@ -153,43 +136,6 @@ export default {
     });
   },
 };
-
-async function loadTrainLines() {
-  function cutAtStation(segmentName, stationName, segmentPart = 0) {
-    const segment = lineData.features.find(
-      (l) => l.properties.name === segmentName,
-    );
-    const segmentLS =
-      segment.geometry.type === "LineString"
-        ? segment
-        : turf.lineString(segment.geometry.coordinates[0]);
-    const station = stations.find((s) => s.properties.nameUp === stationName);
-    const nearStation = turf.nearestPointOnLine(segment, station);
-    const splitParts = turf.lineSplit(segmentLS, nearStation);
-    // });
-
-    segment.geometry.coordinates = [
-      splitParts.features[0].geometry.coordinates,
-    ];
-    segment.geometry.type = "MultiLineString";
-  }
-
-  const url = "trainline.geojson";
-  const lineData = await fetch(url).then((res) => res.json());
-  lineData.features = lineData.features.filter(
-    (l) => l.properties.SEGMENT !== "Start Altona Loop - Laverton",
-  );
-  cutAtStation("Broadmeadows - Mangalore", "Craigieburn");
-  cutAtStation("Sydenham - Castlemaine", "Sunbury");
-  cutAtStation("Dandenong - Pakenham", "Pakenham");
-  cutAtStation("East Camberwell - Alamein", "Alamein");
-  cutAtStation("North Melbourne - Upfield", "Upfield");
-  // cutAtStation("Clifton Hill - Mernda", "Mernda");
-
-  // 1;
-
-  return lineData;
-}
 
 function stationsWithDistances(target) {
   for (const s of stations) {
