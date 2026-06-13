@@ -11,10 +11,14 @@ v-app
   v-container.px-2.px-sm-4.px-md-6
     //- .pa3.flex.flex-column(style="font-family:sans-serif; height:100vh; ")
     div(style="flex-grow:1")
-      h1.text-h4.text-lg-h2.text-center 🚂 Trainle
-        span(v-if="isUnlimited()")  unlimited
-        span(v-else)  \#{{ gameNumber }}
-        span 🚂
+      h1.text-h4.text-lg-h2.text-center
+        | 🚂 Trainle 
+        span(v-if="isUnlimited()")  Unlimited
+        span(
+          v-else
+          :class="{ specialGameNumber: isSpecialGameNumber() }"
+        ) \#{{ gameNumber }}
+        span  🚂
       v-sheet.my-5
         .text-body-1 Try to guess today's mystery station on Melbourne's metro train network.
         .text-body-1.mt-4 Each guess reveals how many stations to the target, and the distance as the crow flies.
@@ -208,14 +212,14 @@ export default {
           guesses: this.guesses.map((g) => g.station),
         },
       });
-      showConfetti();
+      showConfetti({ extraCelebration: this.isSpecialGameNumber() });
     },
 
     getGameNumber() {
       if (window.location.search.match(/game=\d+/)) {
         const gameNumber = +window.location.search.match(/game=(\d+)/)[1];
         console.log(gameNumber);
-        if (gameNumber <= this.daysSinceStart || gameNumber > 1000) {
+        if (gameNumber <= this.daysSinceStart) {
           return gameNumber;
         }
       } else if (this.isUnlimited()) {
@@ -225,6 +229,9 @@ export default {
     },
     isUnlimited() {
       return !!window.location.search.match(/unlimited/);
+    },
+    isSpecialGameNumber() {
+      return this.getGameNumber() % 1000 === 0;
     },
     testRandom() {
       const stations = {};
@@ -395,8 +402,13 @@ export default {
   watch: {},
 };
 
-function showConfetti() {
-  var defaults = {
+/**
+ * Shower the screen in confetti.
+ *
+ * @param {boolean} [opts.extraCelebration=false] Add extra party emojis to the confetti.
+ */
+function showConfetti({ extraCelebration = false } = {}) {
+  const defaults = {
     spread: 360,
     ticks: 100,
     gravity: 0.5,
@@ -414,6 +426,10 @@ function showConfetti() {
     useWorker: true,
   };
 
+  const hundredEmoji = confetti.shapeFromText({ text: "💯" });
+  const partyPopperEmoji = confetti.shapeFromText({ text: "🎉" });
+  const partyFaceEmoji = confetti.shapeFromText({ text: "🥳" });
+
   function shoot({ ...options } = {}) {
     confetti({
       ...defaults,
@@ -430,12 +446,28 @@ function showConfetti() {
       scalar: 0.75,
       shapes: ["circle"],
     });
+
+    if (extraCelebration) {
+      confetti({
+        ...defaults,
+        ...options,
+        particleCount: 50,
+        scalar: 2,
+        flat: true,
+        shapes: [hundredEmoji, partyFaceEmoji, partyPopperEmoji],
+      });
+    }
   }
 
   setTimeout(shoot, 0);
   setTimeout(shoot, 200);
   setTimeout(shoot, 400, { startVelocity: 20 });
   setTimeout(shoot, 600, { startVelocity: 30 });
+  if (extraCelebration) {
+    setTimeout(shoot, 800, { startVelocity: 20 });
+    setTimeout(shoot, 1100, { startVelocity: 20 });
+    setTimeout(shoot, 1400, { startVelocity: 20 });
+  }
 }
 
 window.track = ({ id, parameters }) => {
@@ -472,6 +504,30 @@ window.track = ({ id, parameters }) => {
 };
 </script>
 <style>
+.specialGameNumber {
+  display: inline-block;
+  background: linear-gradient(
+    90deg,
+    #ff0000,
+    #ff9900,
+    #ffee00,
+    #33cc33,
+    #3399ff,
+    #9933ff,
+    #ff0000
+  );
+  background-size: 200% auto;
+  color: transparent;
+  -webkit-background-clip: text;
+  background-clip: text;
+  animation: rainbow-shift 4s linear infinite;
+}
+
+@keyframes rainbow-shift {
+  to {
+    background-position: 200% center;
+  }
+}
 #hintmap .mapbox-ctrl-attrib-inner {
   opacity: 0.01;
 }
